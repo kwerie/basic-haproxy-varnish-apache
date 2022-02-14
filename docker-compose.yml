@@ -1,0 +1,46 @@
+---
+version: '3.9'
+
+services:
+  haproxy:
+    container_name: haproxy
+    image: haproxy:2.2-alpine
+#    restart: always
+    ports:
+      - "80:80"
+      - "433:433"
+    depends_on:
+      - varnish
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+  varnish:
+    container_name: varnish
+    image: varnish
+#    restart: always
+    ports:
+      - "81:80"
+    links:
+      - web01
+      - web02
+    depends_on:
+      - web01
+      - web02
+    volumes:
+      - ./varnish/varnish.vcl/:/etc/varnish/default.vcl
+
+  web01:
+    container_name: web01
+    image: ubuntu/apache2
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web01/src/:/var/www/html
+  web02:
+    container_name: web02
+    image: ubuntu/apache2
+    ports:
+      - "8081:80"
+    volumes:
+      - ./web02/src/:/var/www/html
+
