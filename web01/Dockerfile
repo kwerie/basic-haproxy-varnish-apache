@@ -6,7 +6,7 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libpng-dev \
         libzip-dev \
-        && a2enmod rewrite
+        && a2enmod rewrite headers remoteip
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd zip

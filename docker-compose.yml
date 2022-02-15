@@ -10,8 +10,8 @@ services:
       - "80:80"
     depends_on:
       - varnish01
-#      - varnish02
-#      - varnish03
+      - varnish02
+      - varnish03
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
@@ -19,8 +19,6 @@ services:
     container_name: varnish01
     image: varnish
     restart: always
-    ports:
-      - "81:80"
     links:
       - web01
     depends_on:
@@ -32,8 +30,6 @@ services:
     container_name: varnish02
     image: varnish
     restart: always
-    ports:
-      - "82:81"
     links:
       - web02
     depends_on:
@@ -45,8 +41,6 @@ services:
     container_name: varnish03
     image: varnish
     restart: always
-    ports:
-      - "83:81"
     links:
       - web03
     depends_on:
@@ -63,6 +57,8 @@ services:
       - "8080:80"
     volumes:
       - ./web01/src:/var/www/html
+      - ./web01/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web01/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
 
   web02:
     container_name: web02
@@ -72,6 +68,8 @@ services:
       - "8082:80"
     volumes:
       - ./web02/src:/var/www/html
+      - ./web02/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web02/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
 
   web03:
     container_name: web03
@@ -81,3 +79,5 @@ services:
       - "8083:80"
     volumes:
       - ./web03/src:/var/www/html
+      - ./web03/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web03/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
