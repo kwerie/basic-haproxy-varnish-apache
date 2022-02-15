@@ -5,42 +5,79 @@ services:
   haproxy:
     container_name: haproxy
     image: haproxy:2.2-alpine
-#    restart: always
+    restart: always
     ports:
       - "80:80"
-      - "433:433"
     depends_on:
-      - varnish
+      - varnish01
+      - varnish02
+      - varnish03
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
-  varnish:
-    container_name: varnish
+  varnish01:
+    container_name: varnish01
     image: varnish
-#    restart: always
-    ports:
-      - "81:80"
+    restart: always
     links:
       - web01
-      - web02
     depends_on:
       - web01
+    volumes:
+      - ./varnish01/varnish.vcl/:/etc/varnish/default.vcl
+
+  varnish02:
+    container_name: varnish02
+    image: varnish
+    restart: always
+    links:
+      - web02
+    depends_on:
       - web02
     volumes:
-      - ./varnish/varnish.vcl/:/etc/varnish/default.vcl
+      - ./varnish02/varnish.vcl/:/etc/varnish/default.vcl
+
+  varnish03:
+    container_name: varnish03
+    image: varnish
+    restart: always
+    links:
+      - web03
+    depends_on:
+      - web03
+    volumes:
+      - ./varnish03/varnish.vcl/:/etc/varnish/default.vcl
+
 
   web01:
     container_name: web01
-    image: ubuntu/apache2
+    build: web01
+    restart: always
     ports:
       - "8080:80"
     volumes:
-      - ./web01/src/:/var/www/html
+      - ./web01/src:/var/www/html
+      - ./web01/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web01/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+
   web02:
     container_name: web02
-    image: ubuntu/apache2
+    build: web02
+    restart: always
     ports:
-      - "8081:80"
+      - "8082:80"
     volumes:
-      - ./web02/src/:/var/www/html
+      - ./web02/src:/var/www/html
+      - ./web02/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web02/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
 
+  web03:
+    container_name: web03
+    build: web03
+    restart: always
+    ports:
+      - "8083:80"
+    volumes:
+      - ./web03/src:/var/www/html
+      - ./web03/ca-security.conf:/etc/apache2/conf-enabled/security.conf
+      - ./web03/vhost.conf:/etc/apache2/sites-enabled/000-default.conf

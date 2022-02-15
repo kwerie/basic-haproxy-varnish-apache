@@ -1,1 +1,7 @@
-<h1>Hi, this is web01</h1>
+<h1>Hi, this is webserver 1</h1>
+
+<?php
+
+echo 'This is an echo';
+
+?>
