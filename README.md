@@ -50,7 +50,7 @@ Apache (php:7.4-apache)
 
 **Don't edit the `ca-security.conf` file!**
 
-If you have changed the names of the webXX directories and names, you'll have to edit them in the vhost.conf as well. If you don't do this, the web cluster won't work.
+If you have changed the names of the webXX directories and names, you'll have to edit them in the `vhost.conf` as well. If you don't do this, the web cluster won't work.
 
 The `/src` folder is all yours, you can do whatever you'd like with this.
 
