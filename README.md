@@ -7,8 +7,7 @@ Just open a terminal window and fire the sucker up with `docker compose up -d`
 
 Does not include SSL support, if you'd like this you will have to implement it manually. If done, you can commit to a feature/SSL-support branch.
 
-*Note* this setup is basic and not secure.
-
+**Note** this setup is basic and not secure.
 
 HAProxy
 =======
