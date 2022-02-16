@@ -45,7 +45,7 @@ Don't edit the rest of the varnish.vcl files.
 
 The varnish documentation can be found [here](http://varnish-cache.org/docs/index.html)
 
-Apache (php7.4-apache)
+Apache (php:7.4-apache)
 ======================
 
 **Don't edit the `ca-security.conf` file!**
