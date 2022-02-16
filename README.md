@@ -15,17 +15,17 @@ HAProxy
 
 Balance options:
 
-- roundrobin: each server is used in turns
-- static-rr: similar to roundrobin, but it has no matter if you change the weight of a server
-- leastconn: chooses a server that has the least amount of connections
-- first: chooses the first server that provides a connection
-- source: source IP address is hashed and divides by the total weight of the running srevers,
+- **roundrobin**: each server is used in turns
+- **static-rr**: similar to roundrobin, but it has no matter if you change the weight of a server
+- **leastconn**: chooses a server that has the least amount of connections
+- **first**: chooses the first server that provides a connection
+- **source**: source IP address is hashed and divides by the total weight of the running srevers,
   this will redirect the user to the same server (while navigating between webpages etc.).
   this won't change unless a server goes down or up
-- uri: you can redirect a user to a different backend if the user provides a special uri
-- url_param: the URL parameter specified in argument will be looked up in the query string of each HTTP GET request.
-- random: the user will be redirected to a random server
-- rdp-cookie: The RDP cookie <name> (or "mstshash" if omitted) will be looked up and hashed for each incoming TCP 
+- **uri**: you can redirect a user to a different backend if the user provides a special uri
+- **url_param**: the URL parameter specified in argument will be looked up in the query string of each HTTP GET request.
+- **random**: the user will be redirected to a random server
+- **rdp-cookie**: The RDP cookie <name> (or "mstshash" if omitted) will be looked up and hashed for each incoming TCP 
   request. Just as with the equivalent ACL 'req_rdp_cookie()' function, the name is not case-sensitive. This mechanism 
   is useful as a degraded persistence mode, as it makes it possible to always send the
   same user (or the same session ID) to the same server. If the cookie is not found, the normal roundrobin algorithm is
