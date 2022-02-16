@@ -21,8 +21,12 @@ services:
     restart: always
     links:
       - web01
+      - web02
+      - web03
     depends_on:
       - web01
+      - web02
+      - web03
     volumes:
       - ./varnish01/varnish.vcl/:/etc/varnish/default.vcl
 
@@ -31,9 +35,13 @@ services:
     image: varnish
     restart: always
     links:
+      - web01
       - web02
+      - web03
     depends_on:
+      - web01
       - web02
+      - web03
     volumes:
       - ./varnish02/varnish.vcl/:/etc/varnish/default.vcl
 
@@ -42,41 +50,101 @@ services:
     image: varnish
     restart: always
     links:
+      - web01
+      - web02
       - web03
     depends_on:
+      - web01
+      - web02
       - web03
     volumes:
       - ./varnish03/varnish.vcl/:/etc/varnish/default.vcl
 
   web01:
     container_name: web01
-    build: web01
+    image: wordpress:latest
     restart: always
+    depends_on:
+      - db01
     ports:
       - "8080:80"
     volumes:
-      - ./web01/src:/var/www/html
+      - ./wp01:/var/www/html
       - ./web01/ca-security.conf:/etc/apache2/conf-enabled/security.conf
       - ./web01/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    environment:
+      WORDPRESS_DB_HOST: db01
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_TABLE_PREFIX: wp_
 
   web02:
     container_name: web02
-    build: web02
+    image: wordpress:latest
     restart: always
+    depends_on:
+      - db01
     ports:
       - "8082:80"
     volumes:
-      - ./web02/src:/var/www/html
+      - ./wp01:/var/www/html
       - ./web02/ca-security.conf:/etc/apache2/conf-enabled/security.conf
       - ./web02/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    environment:
+      WORDPRESS_DB_HOST: db01
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_TABLE_PREFIX: wp_
 
   web03:
     container_name: web03
-    build: web03
+    image: wordpress:latest
     restart: always
+    depends_on:
+      - db01
     ports:
       - "8083:80"
     volumes:
-      - ./web03/src:/var/www/html
+      - ./wp01:/var/www/html
       - ./web03/ca-security.conf:/etc/apache2/conf-enabled/security.conf
       - ./web03/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    environment:
+      WORDPRESS_DB_HOST: db01
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_TABLE_PREFIX: wp_
+
+  wp01:
+    container_name: wp01
+    image: wordpress:latest
+    restart: always
+    depends_on:
+      - db01
+    ports:
+      - "8000:80"
+    volumes:
+      - ./wp01:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db01
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wpdb
+      WORDPRESS_TABLE_PREFIX: wp_
+
+  db01:
+    container_name: db01
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: wp
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wp
+
+volumes:
+  db_data: {}
