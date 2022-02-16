@@ -48,7 +48,6 @@ services:
     volumes:
       - ./varnish03/varnish.vcl/:/etc/varnish/default.vcl
 
-
   web01:
     container_name: web01
     build: web01
