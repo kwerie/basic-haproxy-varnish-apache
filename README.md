@@ -54,14 +54,15 @@ Don't edit the rest of the varnish.vcl files.
 
 The varnish documentation can be found [here](http://varnish-cache.org/docs/index.html)
 
-Apache (php:7.4-apache)
+WordPress
 ======================
 
 **Don't edit the `ca-security.conf` file!**
 
 If you have changed the names of the webXX directories and names, you'll have to edit them in the `vhost.conf` as well. If you don't do this, the web cluster won't work.
 
-The `/src` folder is all yours, you can do whatever you'd like with this.
-
 Installing additional PHP modules, add PHP modules in the `Dockerfile` file.
 Keep in mind that you'll have to add them for each environment individually.
+
+WordPress database connection has already been set-up.
+The only thing that has to be done is setting up a name for the website, creaing a user and choosing wether or not the website is going to be indexed
