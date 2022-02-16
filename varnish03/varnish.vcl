@@ -2,8 +2,8 @@ vcl 4.0;
 
 # Default backend definition. Set this to point to your content server.
 backend default {
-   .host = "web03";
-   .port = "80";
+   .host = "web03"; # Docker container name
+   .port = "80"; # Do not change
 }
 
 sub vcl_recv {
