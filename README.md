@@ -12,6 +12,16 @@ Does not include SSL support, if you'd like this you will have to implement it m
 HAProxy
 =======
 
+HAProxy redirects the incoming client connections to one of the varnish servers, loadbalancing happens from the HAPRoxy end, not from the Varnish end (it is possible, but discouraged.).
+
+Timeouts can be changed, but not really necessary when using locally.
+
+Dont edit the front-end options, balance options in the backend `bk_varnish` are allowed to be changed.
+
+Keep ports on 80 when using locally.
+
+To see varnish server stats navigate to `localhost/haproxy_stats`.
+
 Balance options:
 
 - **roundrobin**: each server is used in turns
